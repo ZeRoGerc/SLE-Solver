@@ -1,7 +1,7 @@
 package tools.ui;
 
 import com.sun.istack.internal.NotNull;
-import tools.logic.LogicComponentsProvider;
+import tools.logic.Result;
 import tools.ui.components.MatrixComponent;
 import tools.ui.components.MatrixTypesComponent;
 import tools.ui.components.RunPanelComponent;
@@ -18,7 +18,7 @@ import static tools.ui.components.MatrixComponent.createMatrix;
 import static tools.ui.components.MatrixTypesComponent.createMatrixTypesPanel;
 import static tools.ui.components.RunPanelComponent.createRunPanel;
 
-public class MainScreen {
+public class MainScreen implements RunPanelComponent.SolveClickListener {
 
     @NotNull
     private final MainScreenDelegate delegate;
@@ -36,12 +36,10 @@ public class MainScreen {
     private RunPanelComponent runPanelComponent;
 
 
-    public MainScreen(@NotNull LogicComponentsProvider logicComponentsProvider) {
-        this.delegate = new MainScreenDelegate(logicComponentsProvider);
+    public MainScreen() {
+        this.delegate = new MainScreenDelegate();
         prepareGUI();
     }
-
-
 
     public void show(){
         mainFrame.setVisible(true);
@@ -59,6 +57,7 @@ public class MainScreen {
         matrixTypesComponent = createMatrixTypesPanel();
         matrixComponent = createMatrix();
         runPanelComponent = createRunPanel();
+        runPanelComponent.setSolveClickListener(this);
 
         addWithDefaultPaddings(matrixTypesComponent.component(), NORTH);
         mainFrame.add(matrixComponent.component(), CENTER);
@@ -71,5 +70,11 @@ public class MainScreen {
         controlPanel.add(component);
 
         mainFrame.add(controlPanel, position);
+    }
+
+    @Override
+    public void onYakobiClicked() {
+        Result result = delegate.solveWithYakobi(matrixComponent.getEquation());
+        runPanelComponent.addResultInfo(result);
     }
 }

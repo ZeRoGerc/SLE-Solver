@@ -1,25 +1,52 @@
 package tools.ui.components;
 
 import com.sun.istack.internal.NotNull;
+import tools.logic.Equation;
 
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
-import javax.swing.table.TableModel;
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
+import java.util.Scanner;
 
 import static java.lang.Double.valueOf;
-import static tools.ui.components.UIConstants.COLUMNS;
-import static tools.ui.components.UIConstants.ROWS;
+import static tools.ui.UIConstants.MATRIX_SIZE;
+import static tools.ui.UIConstants.RESOURCES_DIR;
 
 public class MatrixComponent extends UIComponent {
 
-    private MatrixComponent(@NotNull Component component) {
+    @NotNull
+    private final Table table;
+
+    private MatrixComponent(@NotNull Component component, @NotNull Table table) {
         super(component);
+        this.table = table;
+    }
+
+    @NotNull
+    public Equation getEquation() {
+        double[][] rowData = table.data;
+
+        double[][] matrix = new double[MATRIX_SIZE][MATRIX_SIZE];
+        double[] vector = new double[MATRIX_SIZE];
+
+        for (int i = 0; i < MATRIX_SIZE; i++) {
+            for (int j = 0; j < MATRIX_SIZE + 1; j++) {
+                if (j == MATRIX_SIZE) {
+                    vector[i] = rowData[i][j];
+                } else {
+                    matrix[i][j] = rowData[i][j];
+                }
+            }
+        }
+
+        return new Equation(matrix, vector);
     }
 
     @NotNull
     public static MatrixComponent createMatrix() {
-        TableModel dataModel = new Table(ROWS, COLUMNS);
+        Table dataModel = new Table(MATRIX_SIZE, MATRIX_SIZE + 1);
         JTable table = new JTable(dataModel);
 
         table.setTableHeader(null);
@@ -27,7 +54,7 @@ public class MatrixComponent extends UIComponent {
 
         JScrollPane scrollpane = new JScrollPane(table);
 
-        return new MatrixComponent(scrollpane);
+        return new MatrixComponent(scrollpane, dataModel);
     }
 
     private static class Table extends AbstractTableModel {
@@ -37,18 +64,13 @@ public class MatrixComponent extends UIComponent {
         final int columns;
 
         @NotNull
-        final Double[][] data;
+        final double[][] data;
 
         public Table(int rows, int columns) {
             this.rows = rows;
             this.columns = columns;
-            this.data = new Double[rows][columns];
-
-            for (int i = 0; i < rows; i++) {
-                for (int j = 0; j < columns; j++) {
-                    data[i][j] = valueOf(i + j);
-                }
-            }
+            this.data = new double[rows][columns];
+            fillWithData();
         }
 
         public int getRowCount() {
@@ -64,7 +86,9 @@ public class MatrixComponent extends UIComponent {
         }
 
         @NotNull
-        public Double getValueAt(int row, int col) { return data[row][col]; }
+        public Double getValueAt(int row, int col) {
+            return data[row][col];
+        }
 
         public void setValueAt(@NotNull Object value, int row, int col) {
             try {
@@ -76,6 +100,31 @@ public class MatrixComponent extends UIComponent {
                 // TODO: do something
             } finally {
                 fireTableCellUpdated(row, col);
+            }
+        }
+
+        private void fillWithData() {
+            try {
+                Scanner scanner = new Scanner(new File(RESOURCES_DIR + "matrix"));
+
+                for (int i = 0; i < MATRIX_SIZE; i++) {
+                    for (int j = 0; j < MATRIX_SIZE + 1; j++) {
+                        if (scanner.hasNextDouble()) {
+                            data[i][j] = scanner.nextDouble();
+                        }
+                    }
+                }
+            } catch (IOException e) {
+                System.out.println("Could not open file with matrix!");
+                fillWithDefault();
+            }
+        }
+
+        private void fillWithDefault() {
+            for (int i = 0; i < rows; i++) {
+                for (int j = 0; j < columns; j++) {
+                    data[i][j] = valueOf(i + j);
+                }
             }
         }
     }

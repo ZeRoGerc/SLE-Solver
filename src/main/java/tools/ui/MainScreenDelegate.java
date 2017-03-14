@@ -1,14 +1,18 @@
 package tools.ui;
 
 import com.sun.istack.internal.NotNull;
-import tools.logic.LogicComponentsProvider;
+import tools.logic.Equation;
+import tools.logic.Result;
+import tools.logic.methods.YakobiMethod;
 
 public class MainScreenDelegate {
 
-    @NotNull
-    private final LogicComponentsProvider logicComponentsProvider;
+    private static final double DEFAULT_EPS = 1e-3;
 
-    public MainScreenDelegate(@NotNull LogicComponentsProvider logicComponentsProvider) {
-        this.logicComponentsProvider = logicComponentsProvider;
+    @NotNull
+    public Result solveWithYakobi(@NotNull Equation equation) {
+        YakobiMethod method = new YakobiMethod();
+        return method.solve(equation, DEFAULT_EPS);
     }
+
 }
