@@ -1,6 +1,7 @@
 package tools.ui.components;
 
 import com.sun.istack.internal.NotNull;
+import com.sun.istack.internal.Nullable;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,21 +9,48 @@ import java.util.ArrayList;
 
 public class MatrixTypesComponent extends UIComponent {
 
-    @NotNull
-    private final ArrayList<JButton> buttons;
+    @Nullable
+    private MatrixGeneratorClickListener generatorClickListener;
 
-    public MatrixTypesComponent(@NotNull Component component, @NotNull ArrayList<JButton> buttons) {
+    public MatrixTypesComponent(
+            @NotNull Component component,
+            @NotNull JButton diagonal,
+            @NotNull JButton random,
+            @NotNull JButton hilbert
+    ) {
         super(component);
-        this.buttons = buttons;
+
+        diagonal.addActionListener(event -> {
+            if (generatorClickListener != null) {
+                generatorClickListener.onGenerateDiagonalPrevailingClicked();
+            }
+        });
+
+        random.addActionListener(event -> {
+            if (generatorClickListener != null) {
+                generatorClickListener.onGenerateRandomClicked();
+            }
+        });
+
+        hilbert.addActionListener(event -> {
+            if (generatorClickListener != null) {
+                generatorClickListener.onGenerateHilberClicked();
+            }
+        });
+    }
+
+    public void setGeneratorClickListener(@NotNull MatrixGeneratorClickListener clickListener) {
+        this.generatorClickListener = clickListener;
     }
 
     @NotNull
     public static MatrixTypesComponent createMatrixTypesPanel() {
         JPanel panel = new JPanel();
-        GridLayout gridLayout = new GridLayout(0, 2);
+        GridLayout gridLayout = new GridLayout(0, 3);
         panel.setLayout(gridLayout);
 
         ArrayList<JButton> buttons = new ArrayList<>();
+        buttons.add(new JButton("Diagonal-Prevailing"));
         buttons.add(new JButton("Random"));
         buttons.add(new JButton("Hilbert"));
 
@@ -30,6 +58,15 @@ public class MatrixTypesComponent extends UIComponent {
             panel.add(button);
         }
 
-        return new MatrixTypesComponent(panel, buttons);
+        return new MatrixTypesComponent(panel, buttons.get(0), buttons.get(1), buttons.get(2));
+    }
+
+    public interface MatrixGeneratorClickListener {
+
+        void onGenerateDiagonalPrevailingClicked();
+
+        void onGenerateRandomClicked();
+
+        void onGenerateHilberClicked();
     }
 }

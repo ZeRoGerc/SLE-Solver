@@ -12,7 +12,16 @@ import static java.lang.String.format;
 public class RunPanelComponent extends UIComponent {
 
     @NotNull
+    private final JButton gaussButton;
+
+    @NotNull
     private final JButton yakobiButton;
+
+    @NotNull
+    private final JButton relaxButton;
+
+    @NotNull
+    private final JButton descentButton;
 
     @NotNull
     private final JTextArea textArea;
@@ -22,16 +31,41 @@ public class RunPanelComponent extends UIComponent {
 
     public RunPanelComponent(
             @NotNull JPanel panel,
+            @NotNull JButton gaussButton,
             @NotNull JButton yakobiButton,
+            @NotNull JButton relaxButton,
+            @NotNull JButton descentButton,
             @NotNull JTextArea textArea
     ) {
         super(panel);
+        this.gaussButton = gaussButton;
         this.yakobiButton = yakobiButton;
+        this.relaxButton = relaxButton;
+        this.descentButton = descentButton;
         this.textArea = textArea;
+        this.textArea.setEditable(false);
+
+        this.gaussButton.addActionListener(event -> {
+            if (solveClickListener != null) {
+                solveClickListener.onGaussMethodClicked();
+            }
+        });
 
         this.yakobiButton.addActionListener(event -> {
             if (solveClickListener != null) {
-                solveClickListener.onYakobiClicked();
+                solveClickListener.onYakobiMethodClicked();
+            }
+        });
+
+        this.relaxButton.addActionListener(event -> {
+            if (solveClickListener != null) {
+                solveClickListener.onRelaxationMethodClicked();
+            }
+        });
+
+        this.descentButton.addActionListener(event -> {
+            if (solveClickListener != null) {
+                solveClickListener.onDescentMethodClicked();
             }
         });
     }
@@ -64,21 +98,46 @@ public class RunPanelComponent extends UIComponent {
         BoxLayout layout = new BoxLayout(panel, BoxLayout.Y_AXIS);
         panel.setLayout(layout);
 
-        JButton runButton = new JButton("Yakobi");
-        runButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        JPanel buttonsPanel = new JPanel();
+        GridLayout buttonsLayout = new GridLayout(0, 4);
+        buttonsPanel.setLayout(buttonsLayout);
+
+        JButton gaussButton = new JButton("Gauss");
+        JButton yakobiButton = new JButton("Yakobi");
+        JButton relaxButton = new JButton("Relaxation");
+        JButton descentButton = new JButton("Descent");
+
+        buttonsPanel.add(gaussButton);
+        buttonsPanel.add(yakobiButton);
+        buttonsPanel.add(relaxButton);
+        buttonsPanel.add(descentButton);
+        panel.add(buttonsPanel);
 
         JTextArea textArea = new JTextArea();
         textArea.setPreferredSize(new Dimension(600, 300));
         textArea.setAlignmentX(Component.CENTER_ALIGNMENT);
+        textArea.setMargin(new Insets(10, 10, 10, 10));
 
-        panel.add(runButton);
         panel.add(textArea);
 
-        return new RunPanelComponent(panel, runButton, textArea);
+        return new RunPanelComponent(
+                panel,
+                gaussButton,
+                yakobiButton,
+                relaxButton,
+                descentButton,
+                textArea
+        );
     }
 
     public interface SolveClickListener {
 
-        void onYakobiClicked();
+        void onGaussMethodClicked();
+
+        void onYakobiMethodClicked();
+
+        void onRelaxationMethodClicked();
+
+        void onDescentMethodClicked();
     }
 }

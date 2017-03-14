@@ -4,7 +4,9 @@ import com.sun.istack.internal.NotNull;
 import tools.logic.Result;
 import tools.ui.components.MatrixComponent;
 import tools.ui.components.MatrixTypesComponent;
+import tools.ui.components.MatrixTypesComponent.MatrixGeneratorClickListener;
 import tools.ui.components.RunPanelComponent;
+import tools.ui.components.RunPanelComponent.SolveClickListener;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,7 +20,7 @@ import static tools.ui.components.MatrixComponent.createMatrix;
 import static tools.ui.components.MatrixTypesComponent.createMatrixTypesPanel;
 import static tools.ui.components.RunPanelComponent.createRunPanel;
 
-public class MainScreen implements RunPanelComponent.SolveClickListener {
+public class MainScreen implements MatrixGeneratorClickListener, SolveClickListener {
 
     @NotNull
     private final MainScreenDelegate delegate;
@@ -55,6 +57,7 @@ public class MainScreen implements RunPanelComponent.SolveClickListener {
         });
 
         matrixTypesComponent = createMatrixTypesPanel();
+        matrixTypesComponent.setGeneratorClickListener(this);
         matrixComponent = createMatrix();
         runPanelComponent = createRunPanel();
         runPanelComponent.setSolveClickListener(this);
@@ -73,8 +76,38 @@ public class MainScreen implements RunPanelComponent.SolveClickListener {
     }
 
     @Override
-    public void onYakobiClicked() {
+    public void onGaussMethodClicked() {
+        // TODO
+    }
+
+    @Override
+    public void onYakobiMethodClicked() {
         Result result = delegate.solveWithYakobi(matrixComponent.getEquation());
         runPanelComponent.addResultInfo(result);
+    }
+
+    @Override
+    public void onRelaxationMethodClicked() {
+        // TODO
+    }
+
+    @Override
+    public void onDescentMethodClicked() {
+        // TODO
+    }
+
+    @Override
+    public void onGenerateDiagonalPrevailingClicked() {
+        // TODO
+    }
+
+    @Override
+    public void onGenerateRandomClicked() {
+        matrixComponent.setMatrix(delegate.generateRandomMatrix());
+    }
+
+    @Override
+    public void onGenerateHilberClicked() {
+        // TODO
     }
 }

@@ -5,6 +5,8 @@ import tools.logic.Equation;
 
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableCellEditor;
+import javax.swing.text.JTextComponent;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
@@ -22,6 +24,15 @@ public class MatrixComponent extends UIComponent {
     private MatrixComponent(@NotNull Component component, @NotNull Table table) {
         super(component);
         this.table = table;
+    }
+
+    @NotNull
+    public void setMatrix(@NotNull double[][] matrix) {
+        for (int i = 0; i < MATRIX_SIZE; i++) {
+            for (int j = 0; j < MATRIX_SIZE + 1; j++) {
+                table.setValueAt(matrix[i][j], i, j);
+            }
+        }
     }
 
     @NotNull
@@ -47,12 +58,28 @@ public class MatrixComponent extends UIComponent {
     @NotNull
     public static MatrixComponent createMatrix() {
         Table dataModel = new Table(MATRIX_SIZE, MATRIX_SIZE + 1);
-        JTable table = new JTable(dataModel);
+        JTable table = new JTable(dataModel) {
+
+            @Override
+            public Component prepareEditor(TableCellEditor editor, int row, int column) {
+                Component c = super.prepareEditor(editor, row, column);
+                if (c instanceof JTextComponent) {
+                    ((JTextComponent) c).selectAll();
+                }
+                return c;
+            }
+        };
+        table.setRowHeight(20);
 
         table.setTableHeader(null);
         table.setCellSelectionEnabled(true);
 
-        JScrollPane scrollpane = new JScrollPane(table);
+        JScrollPane scrollpane = new JScrollPane(table) {
+            @Override
+            public Insets getInsets() {
+                return new Insets(10, 10, 10, 10);
+            }
+        };
 
         return new MatrixComponent(scrollpane, dataModel);
     }
@@ -92,7 +119,9 @@ public class MatrixComponent extends UIComponent {
 
         public void setValueAt(@NotNull Object value, int row, int col) {
             try {
-                if (value instanceof String) {
+                if (value instanceof Double) {
+                    data[row][col] = (Double) value;
+                } else if (value instanceof String) {
                     Double newValue = Double.parseDouble(((String) value));
                     data[row][col] = newValue;
                 }
