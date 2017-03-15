@@ -116,12 +116,12 @@ public class RunPanelComponent extends UIComponent {
         panel.add(buttonsPanel);
 
         JTextArea textArea = new JTextArea();
-        textArea.setPreferredSize(new Dimension(600, 300));
-        textArea.setAlignmentX(Component.CENTER_ALIGNMENT);
         textArea.setMargin(new Insets(10, 10, 10, 10));
-        textArea.setAutoscrolls(true);
+        JScrollPane areaScrollPane = new JScrollPane(textArea);
 
-        panel.add(textArea);
+        areaScrollPane.setPreferredSize(new Dimension(600, 300));
+        areaScrollPane.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panel.add(areaScrollPane);
 
         return new RunPanelComponent(
                 panel,
