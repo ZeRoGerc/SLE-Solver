@@ -84,7 +84,8 @@ public class MainScreen implements MatrixGeneratorClickListener, SolveClickListe
 
     @Override
     public void onDescentMethodClicked() {
-        // TODO
+        Result result = delegate.solveWithDescent(matrixComponent.getEquation());
+        runPanelComponent.addResultInfo(result);
     }
 
     @Override
