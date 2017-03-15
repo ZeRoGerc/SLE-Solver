@@ -5,7 +5,9 @@ import tools.logic.Equation;
 
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.text.JTextComponent;
 import java.awt.*;
 import java.io.File;
@@ -20,6 +22,17 @@ public class MatrixComponent extends UIComponent {
 
     @NotNull
     private final Table table;
+
+    @NotNull
+    private static final DefaultTableCellRenderer cellRenderer = new DefaultTableCellRenderer() {
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+            c.setBackground(column == MATRIX_SIZE ? Color.PINK : Color.WHITE);
+            c.setForeground(column == MATRIX_SIZE ? Color.WHITE : Color.BLACK);
+            return c;
+        }
+    };
 
     private MatrixComponent(@NotNull Component component, @NotNull Table table) {
         super(component);
@@ -58,7 +71,13 @@ public class MatrixComponent extends UIComponent {
     @NotNull
     public static MatrixComponent createMatrix() {
         Table dataModel = new Table(MATRIX_SIZE, MATRIX_SIZE + 1);
+
         JTable table = new JTable(dataModel) {
+
+            @Override
+            public TableCellRenderer getCellRenderer(int row, int column) {
+                return cellRenderer;
+            }
 
             @Override
             public Component prepareEditor(TableCellEditor editor, int row, int column) {
@@ -99,6 +118,8 @@ public class MatrixComponent extends UIComponent {
             this.data = new double[rows][columns];
             fillWithData();
         }
+
+
 
         public int getRowCount() {
             return rows;
