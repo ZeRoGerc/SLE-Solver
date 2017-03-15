@@ -39,10 +39,10 @@ public class YakobiMethod implements IMethod {
             }
             iter++;
             if (iter > 1_000_000) {
-                return new Result(matrix, false, x, iter, System.currentTimeMillis() - startTime, "Метод Якоби");
+                return new Result(matrix, false, x, iter, System.currentTimeMillis() - startTime, "Yakobi method");
             }
         } while (norm > eps);
 
-        return new Result(matrix, true, x, iter, System.currentTimeMillis() - startTime, "Метод Якоби");
+        return new Result(matrix, true, x, iter, System.currentTimeMillis() - startTime, "Yakobi method");
     }
 }

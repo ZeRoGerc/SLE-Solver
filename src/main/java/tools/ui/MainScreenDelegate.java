@@ -11,10 +11,15 @@ import tools.logic.methods.ZeidelMethod;
 
 public class MainScreenDelegate {
 
-    private static final double DEFAULT_EPS = 1e-3;
+    private static final double DEFAULT_EPS = 1e-9;
 
     @NotNull
     private final MatrixGenerator matrixGenerator = new MatrixGenerator();
+
+    @NotNull
+    public double[][] generateDiagonalPrevailingMatrix() {
+        return matrixGenerator.generateDiagonalPrevailingMatrix();
+    }
 
     @NotNull
     public double[][] generateRandomMatrix() {
@@ -22,13 +27,13 @@ public class MainScreenDelegate {
     }
 
     @NotNull
-    public double[][] generateHilbertMatrix() {
-        return matrixGenerator.generateHilbertMatrix();
+    public double[][] generateRandomSymMatrix() {
+        return matrixGenerator.generateRandomSymMatrix();
     }
 
     @NotNull
-    public double[][] generateDiagonalPrevailingMatrix() {
-        return matrixGenerator.generateDiagonalPrevailingMatrix();
+    public double[][] generateHilbertMatrix() {
+        return matrixGenerator.generateHilbertMatrix();
     }
 
     @NotNull

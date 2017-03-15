@@ -24,6 +24,9 @@ public class RunPanelComponent extends UIComponent {
     private final JButton descentButton;
 
     @NotNull
+    private final JButton condButton;
+
+    @NotNull
     private final JTextArea textArea;
 
     @Nullable
@@ -35,6 +38,7 @@ public class RunPanelComponent extends UIComponent {
             @NotNull JButton yakobiButton,
             @NotNull JButton relaxButton,
             @NotNull JButton descentButton,
+            @NotNull JButton condButton,
             @NotNull JTextArea textArea
     ) {
         super(panel);
@@ -42,6 +46,7 @@ public class RunPanelComponent extends UIComponent {
         this.yakobiButton = yakobiButton;
         this.relaxButton = relaxButton;
         this.descentButton = descentButton;
+        this.condButton = condButton;
         this.textArea = textArea;
         this.textArea.setEditable(false);
 
@@ -68,6 +73,16 @@ public class RunPanelComponent extends UIComponent {
                 solveClickListener.onDescentMethodClicked();
             }
         });
+
+        this.condButton.addActionListener(event -> {
+            if (solveClickListener != null) {
+                solveClickListener.onCondClicked();
+            }
+        });
+    }
+
+    public void writeCond(double cond) {
+        textArea.append("cond = " + cond + "\n\n");
     }
 
     public void addResultInfo(@NotNull Result result) {
@@ -102,18 +117,20 @@ public class RunPanelComponent extends UIComponent {
         panel.setLayout(layout);
 
         JPanel buttonsPanel = new JPanel();
-        GridLayout buttonsLayout = new GridLayout(0, 4);
+        GridLayout buttonsLayout = new GridLayout(0, 5);
         buttonsPanel.setLayout(buttonsLayout);
 
         JButton gaussButton = new JButton("Gauss");
         JButton yakobiButton = new JButton("Yakobi");
         JButton relaxButton = new JButton("Relaxation");
         JButton descentButton = new JButton("Descent");
+        JButton condButton = new JButton("Calc cond");
 
         buttonsPanel.add(gaussButton);
         buttonsPanel.add(yakobiButton);
         buttonsPanel.add(relaxButton);
         buttonsPanel.add(descentButton);
+        buttonsPanel.add(condButton);
         panel.add(buttonsPanel);
 
         JTextArea textArea = new JTextArea();
@@ -130,6 +147,7 @@ public class RunPanelComponent extends UIComponent {
                 yakobiButton,
                 relaxButton,
                 descentButton,
+                condButton,
                 textArea
         );
     }
@@ -143,5 +161,7 @@ public class RunPanelComponent extends UIComponent {
         void onRelaxationMethodClicked();
 
         void onDescentMethodClicked();
+
+        void onCondClicked();
     }
 }

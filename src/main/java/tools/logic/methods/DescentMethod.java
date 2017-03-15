@@ -44,9 +44,9 @@ public class DescentMethod implements IMethod {
         long time = System.currentTimeMillis() - startTime;
 
         if (resultIsOK(eps)) {
-            return new Result(equation.getMatrix(), true, x, iterations, time, "Метод спуска");
+            return new Result(equation.getMatrix(), true, x, iterations, time, "Descent method");
         } else {
-            return new Result(equation.getMatrix(), false, x, iterations, time,  "Метод спуска");
+            return new Result(equation.getMatrix(), false, x, iterations, time,  "Descent method");
         }
     }
 

@@ -17,7 +17,23 @@ public class MatrixGenerator {
 
         for (int i = 0; i < MATRIX_SIZE; i++) {
             for (int j = 0; j < MATRIX_SIZE + 1; j++) {
-                matrix[i][j] = random.nextGaussian() * 100;
+                matrix[i][j] = Math.abs(random.nextGaussian()) * 100;
+            }
+        }
+
+        return matrix;
+    }
+
+    @NotNull
+    public double[][] generateRandomSymMatrix() {
+        double[][] matrix = new double[MATRIX_SIZE][MATRIX_SIZE + 1];
+
+        for (int i = 0; i < MATRIX_SIZE; i++) {
+            for (int j = 0; j < MATRIX_SIZE + 1; j++) {
+                matrix[i][j] = Math.abs(random.nextGaussian()) * 100;
+                if (j != MATRIX_SIZE) {
+                    matrix[j][i] = matrix[i][j];
+                }
             }
         }
 

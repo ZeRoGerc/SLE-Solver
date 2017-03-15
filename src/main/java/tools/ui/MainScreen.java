@@ -13,6 +13,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import static java.awt.BorderLayout.*;
+import static tools.logic.methods.Utils.matrixCond;
 import static tools.ui.components.MatrixComponent.createMatrix;
 import static tools.ui.components.MatrixTypesComponent.createMatrixTypesPanel;
 import static tools.ui.components.RunPanelComponent.createRunPanel;
@@ -99,7 +100,17 @@ public class MainScreen implements MatrixGeneratorClickListener, SolveClickListe
     }
 
     @Override
+    public void onGenerateRandomSymClicked() {
+        matrixComponent.setMatrix(delegate.generateRandomSymMatrix());
+    }
+
+    @Override
     public void onGenerateHilberClicked() {
         matrixComponent.setMatrix(delegate.generateHilbertMatrix());
+    }
+
+    @Override
+    public void onCondClicked() {
+        runPanelComponent.writeCond(matrixCond(matrixComponent.getEquation().getMatrix()));
     }
 }

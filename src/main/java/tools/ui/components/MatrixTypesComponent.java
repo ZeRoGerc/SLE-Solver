@@ -16,6 +16,7 @@ public class MatrixTypesComponent extends UIComponent {
             @NotNull Component component,
             @NotNull JButton diagonal,
             @NotNull JButton random,
+            @NotNull JButton randomSym,
             @NotNull JButton hilbert
     ) {
         super(component);
@@ -29,6 +30,12 @@ public class MatrixTypesComponent extends UIComponent {
         random.addActionListener(event -> {
             if (generatorClickListener != null) {
                 generatorClickListener.onGenerateRandomClicked();
+            }
+        });
+
+        randomSym.addActionListener(event -> {
+            if (generatorClickListener != null) {
+                generatorClickListener.onGenerateRandomSymClicked();
             }
         });
 
@@ -46,19 +53,20 @@ public class MatrixTypesComponent extends UIComponent {
     @NotNull
     public static MatrixTypesComponent createMatrixTypesPanel() {
         JPanel panel = new JPanel();
-        GridLayout gridLayout = new GridLayout(0, 3);
+        GridLayout gridLayout = new GridLayout(0, 4);
         panel.setLayout(gridLayout);
 
         ArrayList<JButton> buttons = new ArrayList<>();
         buttons.add(new JButton("Diagonal-Prevailing"));
         buttons.add(new JButton("Random"));
+        buttons.add(new JButton("Random symmetric"));
         buttons.add(new JButton("Hilbert"));
 
         for (JButton button: buttons) {
             panel.add(button);
         }
 
-        return new MatrixTypesComponent(panel, buttons.get(0), buttons.get(1), buttons.get(2));
+        return new MatrixTypesComponent(panel, buttons.get(0), buttons.get(1), buttons.get(2), buttons.get(3));
     }
 
     public interface MatrixGeneratorClickListener {
@@ -66,6 +74,8 @@ public class MatrixTypesComponent extends UIComponent {
         void onGenerateDiagonalPrevailingClicked();
 
         void onGenerateRandomClicked();
+
+        void onGenerateRandomSymClicked();
 
         void onGenerateHilberClicked();
     }

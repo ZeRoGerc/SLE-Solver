@@ -39,10 +39,10 @@ public class ZeidelMethod implements IMethod {
             if (Math.sqrt(norm) >= eps)
                 iter++;
             if (iter > 1_000_000) {
-                return new Result(matrix, false, x, iter, System.currentTimeMillis() - startTime, "Метод Зейделя");
+                return new Result(matrix, false, x, iter, System.currentTimeMillis() - startTime, "Zeidel method");
             }
         } while (norm > eps);
 
-        return new Result(matrix, true, x, iter, System.currentTimeMillis() - startTime, "Метод Зейделя");
+        return new Result(matrix, true, x, iter, System.currentTimeMillis() - startTime, "Zeidel method");
     }
 }

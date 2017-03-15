@@ -4,6 +4,7 @@ import com.sun.istack.internal.NotNull;
 import tools.logic.Equation;
 
 import javax.swing.*;
+import javax.swing.border.MatteBorder;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellEditor;
@@ -19,6 +20,9 @@ import static tools.Constants.MATRIX_SIZE;
 import static tools.Constants.RESOURCES_DIR;
 
 public class MatrixComponent extends UIComponent {
+
+    @NotNull
+    private static final Color LIGHT_GRAY = new Color(232, 232, 232);
 
     @NotNull
     private final Table table;
@@ -92,6 +96,8 @@ public class MatrixComponent extends UIComponent {
 
         table.setTableHeader(null);
         table.setCellSelectionEnabled(true);
+        table.setGridColor(LIGHT_GRAY);
+        table.setBorder(new MatteBorder(1, 1, 0, 0, LIGHT_GRAY));
 
         JScrollPane scrollpane = new JScrollPane(table) {
             @Override
