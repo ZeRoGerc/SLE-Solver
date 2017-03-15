@@ -4,7 +4,7 @@ import com.sun.istack.internal.NotNull;
 
 import java.util.Random;
 
-import static tools.ui.UIConstants.MATRIX_SIZE;
+import static tools.Constants.MATRIX_SIZE;
 
 public class MatrixGenerator {
 

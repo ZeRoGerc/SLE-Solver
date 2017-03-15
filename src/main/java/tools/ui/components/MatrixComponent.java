@@ -13,8 +13,8 @@ import java.io.IOException;
 import java.util.Scanner;
 
 import static java.lang.Double.valueOf;
-import static tools.ui.UIConstants.MATRIX_SIZE;
-import static tools.ui.UIConstants.RESOURCES_DIR;
+import static tools.Constants.MATRIX_SIZE;
+import static tools.Constants.RESOURCES_DIR;
 
 public class MatrixComponent extends UIComponent {
 

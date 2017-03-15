@@ -9,13 +9,10 @@ import tools.ui.components.RunPanelComponent;
 import tools.ui.components.RunPanelComponent.SolveClickListener;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import static java.awt.BorderLayout.CENTER;
-import static java.awt.BorderLayout.NORTH;
-import static java.awt.BorderLayout.SOUTH;
+import static java.awt.BorderLayout.*;
 import static tools.ui.components.MatrixComponent.createMatrix;
 import static tools.ui.components.MatrixTypesComponent.createMatrixTypesPanel;
 import static tools.ui.components.RunPanelComponent.createRunPanel;
@@ -62,17 +59,9 @@ public class MainScreen implements MatrixGeneratorClickListener, SolveClickListe
         runPanelComponent = createRunPanel();
         runPanelComponent.setSolveClickListener(this);
 
-        addWithDefaultPaddings(matrixTypesComponent.component(), NORTH);
+        mainFrame.add(matrixTypesComponent.component(), NORTH);
         mainFrame.add(matrixComponent.component(), CENTER);
         mainFrame.add(runPanelComponent.component(), SOUTH);
-    }
-
-    private void addWithDefaultPaddings(@NotNull Component component, @NotNull String position) {
-        JPanel controlPanel = new JPanel();
-        controlPanel.setLayout(new FlowLayout());
-        controlPanel.add(component);
-
-        mainFrame.add(controlPanel, position);
     }
 
     @Override

@@ -1,6 +1,6 @@
-package tools.ui;
+package tools;
 
-public class UIConstants {
+public class Constants {
 
     public static int MATRIX_SIZE = 3;
 
