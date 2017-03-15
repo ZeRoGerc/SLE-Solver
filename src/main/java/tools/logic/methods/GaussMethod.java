@@ -50,6 +50,6 @@ public class GaussMethod implements IMethod {
             }
         }
 
-        return new Result(true, temp, iter, System.currentTimeMillis() - startTime);
+        return new Result(matrix, true, temp, iter, System.currentTimeMillis() - startTime, "Метод Гаусса");
     }
 }

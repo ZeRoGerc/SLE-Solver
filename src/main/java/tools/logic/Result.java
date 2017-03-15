@@ -1,5 +1,7 @@
 package tools.logic;
 
+import tools.logic.methods.Utils;
+
 public class Result {
 
     private double[] result;
@@ -10,11 +12,17 @@ public class Result {
 
     private boolean success;
 
-    public Result(boolean success, double[] result, long iterations, long time) {
+    private double cond;
+
+    private String desc;
+
+    public Result(double[][] matrix, boolean success, double[] result, long iterations, long time, String description) {
         this.result = result;
         this.iterations = iterations;
         this.time = time;
         this.success = success;
+        this.desc = description;
+        cond = Utils.matrixCond(matrix);
     }
 
     public double[] getResult() {
@@ -31,5 +39,13 @@ public class Result {
 
     public boolean isSuccess() {
         return success;
+    }
+
+    public double getCond() {
+        return cond;
+    }
+
+    public String getDesc() {
+        return desc;
     }
 }

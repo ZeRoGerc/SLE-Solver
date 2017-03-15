@@ -17,9 +17,6 @@ public class YakobiMethod implements IMethod {
         double norm;
         double[] x = new double[n];
         Arrays.fill(x, 0);
-//        for (int i = 0; i < n; i++) {
-//            x[i] = equation.getVector()[i]/matrix[i][i];
-//        }
 
         long iter = 0;
         long startTime = System.currentTimeMillis();
@@ -42,10 +39,10 @@ public class YakobiMethod implements IMethod {
             }
             iter++;
             if (iter > 1_000_000) {
-                return new Result(false, x, iter, System.currentTimeMillis() - startTime);
+                return new Result(matrix, false, x, iter, System.currentTimeMillis() - startTime, "Метод Якоби");
             }
         } while (norm > eps);
 
-        return new Result(true, x, iter, System.currentTimeMillis() - startTime);
+        return new Result(matrix, true, x, iter, System.currentTimeMillis() - startTime, "Метод Якоби");
     }
 }

@@ -81,6 +81,7 @@ public class RunPanelComponent extends UIComponent {
         answer.deleteCharAt(answer.length() - 1);
         answer.append(" }\n");
 
+        textArea.append(result.getDesc() + "\n");
         textArea.append(answer.toString());
 
         textArea.append(format("Iterations: %d\n", result.getIterations()));
