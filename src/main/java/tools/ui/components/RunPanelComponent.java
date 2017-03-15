@@ -74,7 +74,9 @@ public class RunPanelComponent extends UIComponent {
         StringBuilder answer = new StringBuilder();
         answer.append("Result = {");
         for (double x : result.getResult()) {
-            answer.append(" ").append(x).append(",");
+            String s = String.format("%.03f", x);
+            s = s.replace(",", "."); // todo
+            answer.append(" ").append(s).append(",");
         }
         answer.deleteCharAt(answer.length() - 1);
         answer.append(" }\n");
@@ -117,6 +119,7 @@ public class RunPanelComponent extends UIComponent {
         textArea.setPreferredSize(new Dimension(600, 300));
         textArea.setAlignmentX(Component.CENTER_ALIGNMENT);
         textArea.setMargin(new Insets(10, 10, 10, 10));
+        textArea.setAutoscrolls(true);
 
         panel.add(textArea);
 

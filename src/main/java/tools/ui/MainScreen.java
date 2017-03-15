@@ -66,7 +66,8 @@ public class MainScreen implements MatrixGeneratorClickListener, SolveClickListe
 
     @Override
     public void onGaussMethodClicked() {
-        // TODO
+        Result result = delegate.solveWithGauss(matrixComponent.getEquation());
+        runPanelComponent.addResultInfo(result);
     }
 
     @Override
@@ -77,7 +78,8 @@ public class MainScreen implements MatrixGeneratorClickListener, SolveClickListe
 
     @Override
     public void onRelaxationMethodClicked() {
-        // TODO
+        Result result = delegate.solveWithZeidel(matrixComponent.getEquation());
+        runPanelComponent.addResultInfo(result);
     }
 
     @Override
@@ -87,7 +89,7 @@ public class MainScreen implements MatrixGeneratorClickListener, SolveClickListe
 
     @Override
     public void onGenerateDiagonalPrevailingClicked() {
-        // TODO
+        matrixComponent.setMatrix(delegate.generateDiagonalPrevailingMatrix());
     }
 
     @Override
@@ -97,6 +99,6 @@ public class MainScreen implements MatrixGeneratorClickListener, SolveClickListe
 
     @Override
     public void onGenerateHilberClicked() {
-        // TODO
+        matrixComponent.setMatrix(delegate.generateHilbertMatrix());
     }
 }

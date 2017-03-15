@@ -128,6 +128,8 @@ public class MatrixComponent extends UIComponent {
             } catch (NumberFormatException e) {
                 // TODO: do something
             } finally {
+                int num = (int) (data[row][col] * 1000);
+                data[row][col] = (double) num / 1000d;
                 fireTableCellUpdated(row, col);
             }
         }
